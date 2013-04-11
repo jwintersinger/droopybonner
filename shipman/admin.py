@@ -1,5 +1,5 @@
 import shipman.models
-from django.contrib import admin
+from django.contrib import admin, messages
 
 class EmployeeAdminSpaceshipInline(admin.StackedInline):
   model = shipman.models.Employee
@@ -19,6 +19,12 @@ class SpaceshipAdmin(admin.ModelAdmin):
 class HovertruckAdmin(admin.ModelAdmin):
   inlines = (EmployeeAdminHovertruckInline,)
 
+class PackageAdmin(admin.ModelAdmin):
+  readonly_fields = ('tracking_number',)
+  def save_model(self, request, obj, form, change):
+    obj.save()
+    messages.add_message(request, messages.INFO, 'Package tracking number: %s' % obj.tracking_number)
+
 admin.site.register(shipman.models.Spacesuit)
 admin.site.register(shipman.models.Employee)
 admin.site.register(shipman.models.PlanetaryBody)
@@ -29,4 +35,4 @@ admin.site.register(shipman.models.Storefront)
 admin.site.register(shipman.models.Spaceship, SpaceshipAdmin)
 admin.site.register(shipman.models.Hovertruck, HovertruckAdmin)
 admin.site.register(shipman.models.Customer)
-admin.site.register(shipman.models.Package)
+admin.site.register(shipman.models.Package, PackageAdmin)
