@@ -14,36 +14,49 @@ class Employee(models.Model):
   birthdate = models.DateTimeField()
   salary = models.DecimalField(decimal_places=2, max_digits=15)
   spacesuits = models.ManyToManyField(Spacesuit)
+  def __unicode__(self):
+    return '%s %s' % (self.first_name, self.last_name)
   class Meta:
     db_table = 'employees'
 
 class PlanetaryBody(models.Model):
+  name = models.CharField(max_length=100)
   coord_x = models.FloatField()
   coord_y = models.FloatField()
   coord_z = models.FloatField()
+  def __unicode__(self):
+    return self.name
   class Meta:
     db_table = 'planetary_bodies'
 
 class Atmosphere(models.Model):
   atmosphere = models.CharField(max_length = 100)
+  def __unicode__(self):
+    return self.atmosphere
   class Meta:
     db_table = 'atmospheres'
 
 class Location(models.Model):
   planetary_body = models.ForeignKey(PlanetaryBody)
   address = models.CharField(max_length = 400)
+  def __unicode__(self):
+    return '%s on %s' % (self.address, self.planetary_body.name)
   class Meta:
     db_table = 'locations'
 
 class Depot(models.Model):
   name = models.CharField(max_length=100)
   location = models.ForeignKey(Location)
+  def __unicode__(self):
+    return self.name
   class Meta:
     db_table = 'depots'
 
 class Storefront(models.Model):
   name = models.CharField(max_length=100)
   location = models.ForeignKey(Location)
+  def __unicode__(self):
+    return self.name
   class Meta:
     db_table = 'storefronts'
 
@@ -72,6 +85,8 @@ class Recipient(models.Model):
   first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
   location = models.ForeignKey(Location)
+  def __unicode__(self):
+    return '%s %s' % (self.first_name, self.last_name)
   class Meta:
     db_table = 'recipients'
 
@@ -79,6 +94,8 @@ class Shipper(models.Model):
   first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
   location = models.ForeignKey(Location)
+  def __unicode__(self):
+    return '%s %s' % (self.first_name, self.last_name)
   class Meta:
     db_table = 'shippers'
 
@@ -93,5 +110,7 @@ class Package(models.Model):
   depot = models.ForeignKey(Depot)
   recipient = models.ForeignKey(Recipient)
   shipper = models.ForeignKey(Shipper)
+  def __unicode__(self):
+    return 'Package from %s to %s' % (self.shipper, self.recipient)
   class Meta:
     db_table = 'packages'
