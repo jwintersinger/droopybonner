@@ -31,8 +31,12 @@ class Atmosphere(models.Model):
     db_table = 'atmospheres'
 
 class Location(models.Model):
+  street_address = models.CharField(max_length = 400)
+  city = models.CharField(max_length = 100)
+  province = models.CharField(max_length = 100)
+  postal_code = models.CharField(max_length = 100)
+  country = models.CharField(max_length = 100)
   planetary_body = models.ForeignKey(PlanetaryBody)
-  address = models.CharField(max_length = 400)
   def __str__(self):
     return '%s on %s' % (self.address, self.planetary_body.__str__())
   class Meta:
@@ -113,6 +117,7 @@ class Customer(models.Model):
     db_table = 'customers'
 
 class Package(models.Model):
+  tracking_number = models.CharField(max_length=100, primary_key=True)
   width = models.FloatField()
   height = models.FloatField()
   depth = models.FloatField()
@@ -123,7 +128,6 @@ class Package(models.Model):
   depot = models.ForeignKey(Depot, null=True, blank=True)
   spaceship = models.ForeignKey(Spaceship, null=True, blank=True)
   hovertruck = models.ForeignKey(Hovertruck, null=True, blank=True)
-  tracking_number = models.CharField(max_length=100)
   delivered = models.BooleanField()
   def __str__(self):
     return 'Package from %s to %s' % (self.shipper.__str__(), self.recipient.__str__())
