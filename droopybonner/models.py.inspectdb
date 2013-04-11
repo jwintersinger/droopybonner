@@ -1,0 +1,119 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#     * Rearrange models' order
+#     * Make sure each model has one field with primary_key=True
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# into your database.
+from __future__ import unicode_literals
+
+from django.db import models
+
+class Depot(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.TextField(db_column='Name')
+    location_id = models.ForeignKey(Location, db_column='Location_ID')
+    class Meta:
+        db_table = 'Depot'
+
+class Employee(models.Model):
+    ssn = models.TextField(db_column='SSN', unique=True, primary_key=True)
+    birthdate = models.FloatField(db_column='Birthdate')
+    first_name = models.TextField(db_column='First_Name')
+    last_name = models.TextField(db_column='Last_Name')
+    salary = models.FloatField(db_column='Salary')
+    super_ssn = models.TextField(blank=True, db_column='Super_SSN')
+    storefront_id = models.IntegerField(blank=True, db_column='Storefront_ID', null=True)
+    depot_id = models.IntegerField(blank=True, db_column='Depot_ID', null=True)
+    spaceship_id = models.IntegerField(blank=True, db_column='Spaceship_ID', null=True)
+    class Meta:
+        db_table = 'Employee'
+
+class Hovertruck(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    volume = models.FloatField(db_column='Volume')
+    current_coord_x = models.FloatField(db_column='Current_Coord_x')
+    current_coord_y = models.FloatField(db_column='Current_Coord_y')
+    current_coord_z = models.FloatField(db_column='Current_Coord_z')
+    dest_location = models.ForeignKey(Location, db_column='Dest_Location_ID')
+    class Meta:
+        db_table = 'HoverTruck'
+
+class Location(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    pbid = models.IntegerField(db_column='PBID')
+    address = models.TextField(db_column='Address')
+    class Meta:
+        db_table = 'Location'
+
+class Package(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    width = models.FloatField(db_column='Width')
+    height = models.FloatField(db_column='Height')
+    depth = models.FloatField(db_column='Depth')
+    mass = models.FloatField(db_column='Mass')
+    spaceship_id = models.IntegerField(blank=True, db_column='Spaceship_ID', null=True)
+    hovertruck_id = models.IntegerField(blank=True, db_column='Hovertruck_ID', null=True)
+    storefront_id = models.IntegerField(blank=True, db_column='Storefront_ID', null=True)
+    depot_id = models.IntegerField(blank=True, db_column='Depot_ID', null=True)
+    recipient_id = models.IntegerField(db_column='Recipient_ID')
+    shipper_id = models.IntegerField(db_column='Shipper_ID')
+    class Meta:
+        db_table = 'Package'
+
+class Planetarybody(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    coord_x = models.FloatField(db_column='Coord_x')
+    coord_y = models.FloatField(db_column='Coord_y')
+    coord_z = models.FloatField(db_column='Coord_z')
+    class Meta:
+        db_table = 'PlanetaryBody'
+
+class Planetarybodyatmosphere(models.Model):
+    pbid = models.IntegerField(db_column='PBID')
+    atmosphere = models.TextField(db_column='Atmosphere')
+    class Meta:
+        db_table = 'PlanetaryBodyAtmosphere'
+
+class Recipient(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    first_name = models.TextField(db_column='First_Name')
+    last_name = models.TextField(db_column='Last_Name')
+    location_id = models.ForeignKey(Location, db_column='Location_ID')
+    class Meta:
+        db_table = 'Recipient'
+
+class Shipper(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    first_name = models.TextField(db_column='First_Name')
+    last_name = models.TextField(db_column='Last_Name')
+    location_id = models.ForeignKey(Location, db_column='Location_ID')
+    class Meta:
+        db_table = 'Shipper'
+
+class Spaceship(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    employee_id = models.IntegerField(db_column='Employee_ID')
+    volume = models.FloatField(db_column='Volume')
+    class_field = models.TextField(db_column='Class') Field renamed because it was a Python reserved word.
+    current_coord_x = models.FloatField(db_column='Current_Coord_x')
+    current_coord_y = models.FloatField(db_column='Current_Coord_y')
+    current_coord_z = models.FloatField(db_column='Current_Coord_z')
+    dest_location = models.ForeignKey(Location, db_column='Dest_Location_ID')
+    class Meta:
+        db_table = 'Spaceship'
+
+class Spacesuit(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    size = models.TextField(db_column='Size')
+    model = models.TextField(db_column='Model')
+    class Meta:
+        db_table = 'Spacesuit'
+
+class Storefront(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.TextField(db_column='Name')
+    location_id = models.ForeignKey(Location, db_column='Location_ID')
+    class Meta:
+        db_table = 'Storefront'
