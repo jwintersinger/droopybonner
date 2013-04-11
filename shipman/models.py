@@ -81,23 +81,14 @@ class Hovertruck(models.Model):
   class Meta:
     db_table = 'hovertrucks'
 
-class Recipient(models.Model):
+class Customer(models.Model):
   first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
   location = models.ForeignKey(Location)
   def __unicode__(self):
     return '%s %s' % (self.first_name, self.last_name)
   class Meta:
-    db_table = 'recipients'
-
-class Shipper(models.Model):
-  first_name = models.CharField(max_length=100)
-  last_name = models.CharField(max_length=100)
-  location = models.ForeignKey(Location)
-  def __unicode__(self):
-    return '%s %s' % (self.first_name, self.last_name)
-  class Meta:
-    db_table = 'shippers'
+    db_table = 'customers'
 
 class Package(models.Model):
   width = models.FloatField()
@@ -108,8 +99,8 @@ class Package(models.Model):
   hovertruck = models.ForeignKey(Hovertruck)
   storefront = models.ForeignKey(Storefront)
   depot = models.ForeignKey(Depot)
-  recipient = models.ForeignKey(Recipient)
-  shipper = models.ForeignKey(Shipper)
+  recipient = models.ForeignKey(Customer, related_name='received_packages')
+  shipper = models.ForeignKey(Customer, related_name='shipped_packages')
   def __unicode__(self):
     return 'Package from %s to %s' % (self.shipper, self.recipient)
   class Meta:
