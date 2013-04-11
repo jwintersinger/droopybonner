@@ -27,12 +27,11 @@ CREATE TABLE Spaceship (
   Current_Coord_x REAL NOT NULL,
   Current_Coord_y REAL NOT NULL,
   Current_Coord_z REAL NOT NULL,
-  Dest_PBID INTEGER,
-  Dest_Address TEXT,
+  Dest_Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID),
   FOREIGN KEY (Employee_ID) REFERENCES Employee(ID),
-  FOREIGN KEY(Dest_PBID, Dest_Address) REFERENCES Location(PBID, Address)
+  FOREIGN KEY(Dest_Location_ID) REFERENCES Location(ID)
 );
 
 CREATE TABLE HoverTruck (
@@ -41,11 +40,10 @@ CREATE TABLE HoverTruck (
   Current_Coord_x REAL NOT NULL,
   Current_Coord_y REAL NOT NULL,
   Current_Coord_z REAL NOT NULL,
-  Dest_PBID INTEGER,
-  Dest_Address TEXT,
+  Dest_Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID),
-  FOREIGN KEY(Dest_PBID, Dest_Address) REFERENCES Location(PBID, Address)
+  FOREIGN KEY(Dest_Location_ID) REFERENCES Location(ID)
 );
 
 CREATE TABLE Spacesuit (
@@ -68,43 +66,39 @@ CREATE TABLE Shipper (
   ID INTEGER NOT NULL,
   First_Name TEXT NOT NULL,
   Last_Name TEXT NOT NULL,
-  Location_PBID INTEGER NOT NULL,
-  Location_Address TEXT NOT NULL,
+  Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID),
-  FOREIGN KEY(Location_PBID, Location_Address) REFERENCES Location(PBID, Address)
+  FOREIGN KEY(Location_ID) REFERENCES Location(ID)
 );
 
 CREATE TABLE Recipient (
   ID INTEGER NOT NULL,
   First_Name TEXT NOT NULL,
   Last_Name TEXT NOT NULL,
-  Location_PBID INTEGER NOT NULL,
-  Location_Address TEXT NOT NULL,
+  Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID),
-  FOREIGN KEY(Location_PBID, Location_Address) REFERENCES Location(PBID, Address)
+  FOREIGN KEY(Location_ID) REFERENCES Location(ID)
 );
 
 CREATE TABLE Storefront (
   ID INTEGER NOT NULL,
   Name TEXT NOT NULL,
-  Location_PBID INTEGER NOT NULL,
-  Location_Address TEXT NOT NULL,
+  Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID),
-  FOREIGN KEY(Location_PBID, Location_Address) REFERENCES Location(PBID, Address)
+  FOREIGN KEY(Location_ID) REFERENCES Location(ID)
 );
 
 CREATE TABLE Depot (
   ID INTEGER NOT NULL,
   Name TEXT NOT NULL,
-  Location_PBID INTEGER NOT NULL,
-  Location_Address TEXT NOT NULL,
+  Location_ID INTEGER NOT NULL,
 
   PRIMARY KEY (ID)
+  FOREIGN KEY(Location_ID) REFERENCES Location(ID)
 );
-
 
 CREATE TABLE PlanetaryBody (
   ID INTEGER NOT NULL,
@@ -123,9 +117,11 @@ CREATE TABLE PlanetaryBodyAtmosphere (
 );
 
 CREATE TABLE Location (
+  ID INTEGER NOT NULL,
   PBID INTEGER NOT NULL,
   Address TEXT NOT NULL,
 
+  PRIMARY KEY (ID),
   FOREIGN KEY (PBID) REFERENCES PlanetaryBody(ID)
 );
 
