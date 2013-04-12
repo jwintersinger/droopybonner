@@ -1,7 +1,17 @@
-<h1>{{ package }}</h1>
-<table>
-  <tr><th>Status</th><th>Time</th></tr>
-{% for status in package.statuses.all %}
-  <tr><td>{{ status.status|capfirst }}</td><td>{{ status.datetime }}</td></tr>
-{% endfor %}
-</ul>
+{% extends "shipman/base.html" %}
+{% block title %}Track package{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="span12">
+      <h3>{{ package }}</h3>
+      <h5>Tracking number: {{ package.tracking_number }}</h5>
+
+      <table class="table table-striped table-bordered table-hover">
+        <tr><th>Status</th><th>Time</th></tr>
+      {% for status in package.statuses.all %}
+        <tr><td>{{ status.status|capfirst }}</td><td>{{ status.datetime }}</td></tr>
+      {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}

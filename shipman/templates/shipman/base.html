@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Planetary Express</title>
+    <title>Planetary Express // {% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -31,7 +31,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -40,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Planetary Express</a>
+          <a class="brand" href="/">Planetary Express</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class=""><a href="/">Home</a></li>
@@ -54,34 +53,9 @@
 
     <div class="container">
 
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h2>Planetary Express</h2>
-        <p>Ship packages across the street, across the country, or across the galaxy. We're here for you, baby.</p>
-        <p><a href="/admin/" class="btn btn-primary btn-large">Administer site &raquo;</a></p>
-      </div>
 
       <!-- Example row of columns -->
-      <div class="row">
-        <div class="span4">
-          <h2>Track</h2>
-          <form action="/track/" method="post" class="form-inline">
-            {% csrf_token %}
-            <input id="id_tracking_number" name="tracking_number" type="text" class="input-medium" placeholder="Tracking number" />
-            <input type="submit" value="Track" class="btn" />
-          </form>
-        </div>
-        <div class="span4">
-          <h2>Admin</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="/admin/">Administer &raquo;</a></p>
-       </div>
-        <div class="span4">
-          <h2>Analyze</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn" href="/analyze/">Analyze &raquo;</a></p>
-        </div>
-      </div>
+      {% block content %}{% endblock %}
 
       <hr>
 

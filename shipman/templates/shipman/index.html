@@ -1,0 +1,32 @@
+{% extends "shipman/base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <div class="hero-unit">
+    <h2>Planetary Express</h2>
+    <p>Ship packages across the street, across the country, or across the galaxy. We're here for you, baby.</p>
+    <p><a href="/admin/" class="btn btn-primary btn-large">Administer &raquo;</a></p>
+  </div>
+
+  <div class="row">
+    <div class="span4">
+      <h2>Track</h2>
+      <form action="/track/" method="post" class="form-inline">
+        {% csrf_token %}
+        <input id="id_tracking_number" name="tracking_number" type="text" class="input-medium" placeholder="Tracking number" />
+        <input type="submit" value="Track" class="btn" />
+      </form>
+    </div>
+
+    <div class="span4">
+      <h2>Analyze</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn" href="/analyze/">Analyze &raquo;</a></p>
+    </div>
+
+    <div class="span4">
+      <h2>Administer</h2>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+      <p><a class="btn" href="/admin/">Administer &raquo;</a></p>
+   </div>
+  </div>
+{% endblock %}
