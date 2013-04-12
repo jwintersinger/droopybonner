@@ -1,0 +1,34 @@
+{% extends "shipman/base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Stats</h1>
+  <h4>Packages sent and received by same person</h4>
+  <ul>
+  {% for package in packages_sent_received_by_same_person %}
+    <li>{{ package }}</li>
+  {% endfor %}
+  </ul>
+
+  <h4>Packages where sender and recipient are on same planet</h4>
+  <ul>
+  {% for package in packages_with_sender_receiver_on_same_planet %}
+    <li>{{ package }}</li>
+  {% endfor %}
+  </ul>
+
+  <h4>Shippers with most unreceived packages</h4>
+  <table class="table table-striped table-bordered table-hover">
+    <tr><th>Name</th><th>Unreceived packages</th></tr>
+  {% for shipper in shippers_with_most_unreceived_packages %}
+    <tr><td>{{ shipper }}</td><td>{{ shipper.unreceived_packages }}</td></tr>
+  {% endfor %}
+  </table>
+
+  <h4>Average employee salaries per class</h4>
+  <table class="table table-striped table-bordered table-hover">
+    <tr><th>Employee class</th><th>Average salary</th></tr>
+    {% for employee_class in average_employee_salaries_per_class %}
+    <tr><td>{{ employee_class.type }}</td><td>${{ employee_class.avg_salary|floatformat:2 }}</td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}

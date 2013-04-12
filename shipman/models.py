@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
+from django.db import connection
 from datetime import datetime
 import hashlib
 
@@ -107,6 +108,8 @@ class Employee(models.Model):
   spacesuits = models.ManyToManyField(Spacesuit)
   spaceship = models.ForeignKey(Spaceship, related_name='crew_members', null=True, blank=True)
   hovertruck = models.ForeignKey(Hovertruck, related_name='crew_members', null=True, blank=True)
+  depot = models.ForeignKey(Depot, related_name='staff', null=True, blank=True)
+  storefront = models.ForeignKey(Storefront, related_name='staff', null=True, blank=True)
   def __str__(self):
     return '%s %s' % (self.first_name, self.last_name)
   class Meta:
@@ -199,3 +202,67 @@ def record_package_status(sender, instance, **kwargs):
   if current_status != most_recent_status:
     PackageStatus.objects.create(package = instance, status = current_status)
 post_save.connect(record_package_status, sender=Package, dispatch_uid='Hello, strawberries.')
+
+class Stats():
+  def packages_sent_received_by_same_person(self):
+    packages = Package.objects.raw(
+      'SELECT * FROM packages WHERE shipper_id = recipient_id'
+    )
+    return packages
+
+  def packages_with_sender_receiver_on_same_planet(self):
+    packages = Package.objects.raw('''
+      SELECT p.*
+      FROM packages p
+      INNER JOIN customers c1 ON p.shipper_id = c1.id
+      INNER JOIN customers c2 ON p.recipient_id = c2.id
+      INNER JOIN locations l1 on l1.id = c1.location_id
+      INNER JOIN locations l2 on l2.id = c2.location_id
+      WHERE l1.planetary_body_id = l2.planetary_body_id
+    ''')
+    return packages
+
+  def shippers_with_most_unreceived_packages(self):
+    shippers = Customer.objects.raw('''
+      SELECT s.*, COUNT(p.tracking_number) AS unreceived_packages
+      FROM customers s
+      INNER JOIN packages p ON s.id = p.shipper_id
+      WHERE p.delivered = 0
+      ORDER BY unreceived_packages DESC
+      LIMIT 10
+    ''')
+    return shippers
+
+  def average_employee_salaries_per_class(self):
+    cursor = connection.cursor()
+    query = []
+    employee_types = (
+      ('spaceship', 'Spaceship crew member'),
+      ('hovertruck', 'Hovertruck driver'),
+      ('depot', 'Depot staff'),
+      ('storefront', 'Storefront staff'),
+    )
+    for employee_type in employee_types:
+      tbl_alias = '%s_employees' % employee_type[0]
+      query.append('''
+        SELECT '%s' AS type, COALESCE(AVG(%s.salary), 0) AS avg_salary
+        FROM employees %s
+        WHERE %s.%s_id IS NOT NULL
+      ''' % (
+        employee_type[1],
+        tbl_alias,
+        tbl_alias,
+        tbl_alias,
+        employee_type[0]
+      ))
+    query = ' UNION '.join(query) + ' ORDER BY avg_salary DESC'
+
+    cursor.execute(query)
+    results = dictfetchall(cursor)
+    return results
+
+# Taken from https://docs.djangoproject.com/en/dev/topics/db/sql/#executing-custom-sql-directly.
+def dictfetchall(cursor):
+  "Returns all rows from a cursor as a dict"
+  desc = cursor.description
+  return [ dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall() ]

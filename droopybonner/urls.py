@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'shipman.views.index'),
+    url(r'^analyze/$', 'shipman.views.analyze_stats'),
     url(r'^track/$', 'shipman.views.track_package_form'),
     url(r'^track/(?P<tracking_number>.+)/$', 'shipman.views.track_package'),
 )
