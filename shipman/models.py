@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from datetime import datetime
 import hashlib
 
@@ -38,7 +38,13 @@ class Location(models.Model):
   country = models.CharField(max_length = 100)
   planetary_body = models.ForeignKey(PlanetaryBody)
   def __str__(self):
-    return '%s on %s' % (self.address, self.planetary_body.__str__())
+    return '%s, %s, %s, %s on %s' % (
+      self.street_address,
+      self.city,
+      self.province,
+      self.country,
+      self.planetary_body
+    )
   class Meta:
     db_table = 'locations'
 
@@ -130,9 +136,30 @@ class Package(models.Model):
   hovertruck = models.ForeignKey(Hovertruck, null=True, blank=True)
   delivered = models.BooleanField()
   def __str__(self):
-    return 'Package from %s to %s' % (self.shipper.__str__(), self.recipient.__str__())
+    return 'Package from %s to %s' % (self.shipper, self.recipient)
   class Meta:
     db_table = 'packages'
+
+  def determine_status(self):
+    if self.delivered:
+      return 'delivered to %s' % self.recipient
+    elif self.depot:
+      return 'at depot %s (%s)' % (self.depot, self.depot.location)
+    elif self.storefront:
+      return 'at storefront %s (%s)' % (self.storefront, self.storefront.location)
+    elif self.spaceship:
+      return 'on %s' % str(self.spaceship)
+    elif self.hovertruck:
+      return 'on %s' % str(self.hovertruck)
+    else:
+      return 'at unknown location'
+
+  def most_recent_status(self):
+    statuses = self.statuses.all()
+    if statuses:
+      return statuses[0]
+    else:
+      return None
 
 def generate_tracking_number(sender, instance, **kwargs):
   package = instance
@@ -144,3 +171,31 @@ def generate_tracking_number(sender, instance, **kwargs):
   hasher.update(hash_payload.encode('utf8'))
   package.tracking_number = hasher.hexdigest().upper()
 pre_save.connect(generate_tracking_number, sender=Package, dispatch_uid='Hello, bananas.')
+
+class PackageStatus(models.Model):
+  package = models.ForeignKey(Package, related_name='statuses')
+  status = models.CharField(max_length = 400)
+  datetime = models.DateTimeField(auto_now_add = True)
+  def __str__(self):
+    return '%s was %s at %s' % (
+        self.package,
+        self.status,
+        self.datetime
+      )
+  class Meta:
+    db_table = 'package_statuses'
+    verbose_name_plural = 'package statuses'
+    ordering = ['-datetime']
+
+def record_package_status(sender, instance, **kwargs):
+  package = instance
+  current_status = package.determine_status()
+  most_recent_status = package.most_recent_status()
+  if most_recent_status:
+    most_recent_status = most_recent_status.status
+  else:
+    most_recent_status = ''
+
+  if current_status != most_recent_status:
+    PackageStatus.objects.create(package = instance, status = current_status)
+post_save.connect(record_package_status, sender=Package, dispatch_uid='Hello, strawberries.')

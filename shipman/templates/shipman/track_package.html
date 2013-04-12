@@ -1,0 +1,7 @@
+<h1>{{ package }}</h1>
+<table>
+  <tr><th>Status</th><th>Time</th></tr>
+{% for status in package.statuses.all %}
+  <tr><td>{{ status.status|capfirst }}</td><td>{{ status.datetime }}</td></tr>
+{% endfor %}
+</ul>
