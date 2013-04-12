@@ -4,6 +4,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from shipman.models import Package
 
+def index(request):
+  track_package_form = TrackPackageForm()
+  return render(request, 'shipman/index.html', {'track_package_form': track_package_form})
+
 def track_package_form(request):
   if request.method == 'POST':
     form = TrackPackageForm(request.POST)
