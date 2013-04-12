@@ -3,13 +3,18 @@
 {% block content %}
   <div class="hero-unit">
     <h2>Planetary Express</h2>
-    <p>Ship packages across the street, across the country, or across the galaxy. We're here for you, baby.</p>
+    <p>Ship packages across the street, across the country, or across the
+    galaxy. Transcend the universe's spatial boundaries with Planetary Express.
+    We're here for you, baby.</p>
     <p><a href="/admin/" class="btn btn-primary btn-large">Administer &raquo;</a></p>
   </div>
 
   <div class="row">
     <div class="span4">
       <h2>Track</h2>
+      <p>You have packages. Important packages. Specifically, you are shipping
+      narcotics. More specifically, horse tranquilizers that you want to sell
+      to drug-addled junkes. Let's work together to find out where your tranquilizers are.</p>
       <form action="/track/" method="post" class="form-inline">
         {% csrf_token %}
         <input id="id_tracking_number" name="tracking_number" type="text" class="input-medium" placeholder="Tracking number" />
@@ -19,13 +24,15 @@
 
     <div class="span4">
       <h2>Analyze</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p>You have a great many customers. Those customers have a great many packages. All this data is making you dizzy. But don't worry. We have tools. They will help you work tirelessly to <del>screw</del> serve your customers.</p>
       <p><a class="btn" href="/analyze/">Analyze &raquo;</a></p>
     </div>
 
     <div class="span4">
       <h2>Administer</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+      <p>Ever dream of running your own empire? Of being the King Cheese? Of
+      inflicting economic hardship upon the unwashed masses in your quest for a
+      larger swimming pool? Well, so have we. And so we built this interface.</p>
       <p><a class="btn" href="/admin/">Administer &raquo;</a></p>
    </div>
   </div>
