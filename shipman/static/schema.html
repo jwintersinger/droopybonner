@@ -307,7 +307,8 @@
 ;
 <span class="f3">CREATE TABLE</span> <span class="bold">&quot;atmospheres&quot;</span> (
     <span class="f2"><span class="bold">&quot;id&quot;</span></span> <span class="f2">integer</span> <span class="f3">NOT NULL</span> <span class="f3">PRIMARY KEY</span>,
-    <span class="f2"><span class="bold">&quot;atmosphere&quot;</span></span> <span class="f2">varchar(100)</span> <span class="f3">NOT NULL</span>
+    <span class="f2"><span class="bold">&quot;atmosphere&quot;</span></span> <span class="f2">varchar(100)</span> <span class="f3">NOT NULL</span>,
+    <span class="f2"><span class="bold">&quot;planetary_body_id&quot;</span></span> <span class="f2">integer</span> <span class="f3">NOT NULL</span> <span class="f3">REFERENCES</span> <span class="bold">&quot;planetary_bodies&quot;</span> (<span class="f2"><span class="bold">&quot;id&quot;</span></span>)
 )
 ;
 <span class="f3">CREATE TABLE</span> <span class="bold">&quot;locations&quot;</span> (

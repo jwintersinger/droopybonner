@@ -26,6 +26,7 @@ class PlanetaryBody(models.Model):
 
 class Atmosphere(models.Model):
   atmosphere = models.CharField(max_length = 100)
+  planetary_body = models.ForeignKey(PlanetaryBody)
   def __str__(self):
     return self.atmosphere
   class Meta:
