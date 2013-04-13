@@ -75,8 +75,8 @@ class Spaceship(models.Model):
   class Meta:
     db_table = 'spaceships'
   def __str__(self):
-    return '%s m^3 spaceship at (%s, %s, %s)' % (
-        self.volume,
+    return '%s spaceship at (%s, %s, %s)' % (
+        self.type,
         self.current_coord_x,
         self.current_coord_y,
         self.current_coord_z,
