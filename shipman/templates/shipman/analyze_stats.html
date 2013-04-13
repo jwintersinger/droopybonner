@@ -4,17 +4,17 @@
   <h1>Stats</h1>
   <h4>Packages sent and received by same person</h4>
   <table class="table table-striped table-bordered table-hover">
-    <tr><th>Package</th></tr>
+    <tr><th>Package</th><th>Tracking number</th></tr>
   {% for package in packages_sent_received_by_same_person %}
-    <tr><td>{{ package }}</td></tr>
+    <tr><td>{{ package }}</td><td>{{ package.tracking_number }}</td></tr>
   {% endfor %}
   </table>
 
   <h4>Packages where sender and recipient are on same planet</h4>
   <table class="table table-striped table-bordered table-hover">
-    <tr><th>Package</th></tr>
+    <tr><th>Package</th><th>Tracking number</th></tr>
   {% for package in packages_with_sender_receiver_on_same_planet %}
-    <tr><td>{{ package }}</td></tr>
+    <tr><td>{{ package }}</td><td>{{ package.tracking_number }}</td></tr>
   {% endfor %}
   </table>
 
