@@ -18,9 +18,9 @@
   {% endfor %}
   </table>
 
-  <h4>Shippers with most unreceived packages</h4>
+  <h4>Shippers with most undelivered packages</h4>
   <table class="table table-striped table-bordered table-hover">
-    <tr><th>Name</th><th>Unreceived packages</th></tr>
+    <tr><th>Name</th><th>Undelivered packages</th></tr>
   {% for shipper in shippers_with_most_unreceived_packages %}
     <tr><td>{{ shipper }}</td><td>{{ shipper.unreceived_packages }}</td></tr>
   {% endfor %}
