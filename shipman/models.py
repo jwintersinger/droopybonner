@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.db import connection
@@ -99,10 +100,14 @@ class Hovertruck(models.Model):
         self.current_coord_z,
       )
 
+def validate_numeric(value):
+  if not value.isnumeric():
+    raise ValidationError('%s is not numeric' % value)
+
 class Employee(models.Model):
   first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
-  ssn = models.CharField(max_length=10, primary_key=True, verbose_name='SSN')
+  ssn = models.CharField(max_length=10, primary_key=True, verbose_name='SSN', validators=[validate_numeric])
   supervisor = models.ForeignKey('self', blank=True, null=True)
   birthdate = models.DateField()
   salary = models.DecimalField(decimal_places=2, max_digits=15)
@@ -115,7 +120,6 @@ class Employee(models.Model):
     return '%s %s' % (self.first_name, self.last_name)
   class Meta:
     db_table = 'employees'
-
 
 class Customer(models.Model):
   first_name = models.CharField(max_length=100)
