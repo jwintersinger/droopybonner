@@ -354,7 +354,7 @@
 ;
 <span class="f3">CREATE TABLE</span> <span class="bold">&quot;employees_spacesuits&quot;</span> (
     <span class="f2"><span class="bold">&quot;id&quot;</span></span> <span class="f2">integer</span> <span class="f3">NOT NULL</span> <span class="f3">PRIMARY KEY</span>,
-    <span class="f2"><span class="bold">&quot;employee_id&quot;</span></span> <span class="f2">varchar(10)</span> <span class="f3">NOT NULL</span>,
+    <span class="f2"><span class="bold">&quot;employee_id&quot;</span></span> <span class="f2">varchar(10)</span> <span class="f3">NOT NULL</span> <span class="f3">REFERENCES</span> <span class="bold">&quot;employees&quot;</span> (<span class="f2"><span class="bold">&quot;ssn&quot;</span></span>),
     <span class="f2"><span class="bold">&quot;spacesuit_id&quot;</span></span> <span class="f2">integer</span> <span class="f3">NOT NULL</span> <span class="f3">REFERENCES</span> <span class="bold">&quot;spacesuits&quot;</span> (<span class="f2"><span class="bold">&quot;id&quot;</span></span>),
     <span class="f3">UNIQUE</span> (<span class="f2"><span class="bold">&quot;employee_id&quot;</span></span>, <span class="f2"><span class="bold">&quot;spacesuit_id&quot;</span></span>)
 )
@@ -363,7 +363,7 @@
     <span class="f2"><span class="bold">&quot;first_name&quot;</span></span> <span class="f2">varchar(100)</span> <span class="f3">NOT NULL</span>,
     <span class="f2"><span class="bold">&quot;last_name&quot;</span></span> <span class="f2">varchar(100)</span> <span class="f3">NOT NULL</span>,
     <span class="f2"><span class="bold">&quot;ssn&quot;</span></span> <span class="f2">varchar(10)</span> <span class="f3">NOT NULL</span> <span class="f3">PRIMARY KEY</span>,
-    <span class="f2"><span class="bold">&quot;supervisor_id&quot;</span></span> <span class="f2">varchar(10)</span>,
+    <span class="f2"><span class="bold">&quot;supervisor_id&quot;</span></span> <span class="f2">varchar(10)</span> <span class="f3">REFERENCES</span> <span class="bold">&quot;employees&quot;</span> (<span class="f2"><span class="bold">&quot;ssn&quot;</span></span>),
     <span class="f2"><span class="bold">&quot;birthdate&quot;</span></span> <span class="f2">date</span> <span class="f3">NOT NULL</span>,
     <span class="f2"><span class="bold">&quot;salary&quot;</span></span> <span class="f2">decimal</span> <span class="f3">NOT NULL</span>,
     <span class="f2"><span class="bold">&quot;spaceship_id&quot;</span></span> <span class="f2">integer</span> <span class="f3">REFERENCES</span> <span class="bold">&quot;spaceships&quot;</span> (<span class="f2"><span class="bold">&quot;id&quot;</span></span>),
