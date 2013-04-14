@@ -29,6 +29,10 @@ def track_package_form(request):
   return render(request, 'shipman/track_package_form.html', {'form': form})
 
 def track_package(request, tracking_number = None):
-  package = get_object_or_404(Package, tracking_number = tracking_number)
+  try:
+    package = Package.objects.get(tracking_number = tracking_number)
+  except Package.DoesNotExist:
+    return render(request, 'shipman/package_not_found.html',
+        {'tracking_number': tracking_number})
   return render(request, 'shipman/track_package.html',
     {'package': package})
