@@ -233,6 +233,7 @@ class Stats():
       FROM customers s
       INNER JOIN packages p ON s.id = p.shipper_id
       WHERE p.delivered = 0
+      GROUP BY s.id
       ORDER BY unreceived_packages DESC
       LIMIT 10
     ''')
